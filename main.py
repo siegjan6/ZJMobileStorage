@@ -18,8 +18,8 @@ def main(fun,param):
     elif fun == 'sisMember':
         sisMember(param[0],int(param[1]),int(param[2]))
 
-def importExcel(fileName,sheetIndex = 0,db = 0):
-    rdb = redis.Redis(host='localhost',port=6379,connection_pool = pool,db=db)
+def importExcel(fileName,sheetIndex = 0,dbIndex = 0):
+    rdb = redis.Redis(host='localhost',port=6379,db=dbIndex)
     data = open_excel(fileName)
     table = data.sheets()[sheetIndex]
     rows = table.nrows
@@ -29,9 +29,10 @@ def importExcel(fileName,sheetIndex = 0,db = 0):
             v = str(int(row[0]))
             rdb.set(v,0)
     rdb.save()
+    print dbIndex
 
 def sisMember(fileName,sheetIndex = 0,db = 0):
-    rdb = redis.Redis(host='localhost',port=6379,connection_pool = pool,db=db)
+    rdb = redis.Redis(host='localhost',port=6379,db=db)
     data = open_excel(fileName)
     table = data.sheets()[sheetIndex]
     rows = table.nrows
