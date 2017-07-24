@@ -1,9 +1,6 @@
-ZJMobileStorage
+号码存储 号码比对
 ====
-
-手机号数据存储比对功能
-
-excel redis python
+##### 使用到的库 excel redis python
 
 
 命令名称 数据库ID（0-9)
