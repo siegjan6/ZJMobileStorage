@@ -6,18 +6,19 @@ import time
 from excelio import *
 
 #1048575 *.xlsx 最大表格行数
+#如果是windows.  '啊啊啊'.decode('utf-8').encode('gbk')
 #config set stop-writes-on-bgsave-error no 关闭自动快照
+
 pool = redis.ConnectionPool()
 rcon = None
 #rcon = redis.Redis(host='localhost',port=6379,connection_pool = pool,db=0)
-
 def main(fun,param):
     if fun == 'test':
         test(int(param[0]))
     elif fun == 'importExcel':
-        importExcel(param[0],int(param[1]),int(param[2]))
+        importExcel(param[0],int(param[1]))
     elif fun == 'sisMember':
-        sisMember(param[0],int(param[1]),int(param[2]))
+        sisMember(param[0],int(param[1]))
 
 def importExcel(fileName,dbIndex = 0):
     sheetIndex = 0
@@ -26,7 +27,7 @@ def importExcel(fileName,dbIndex = 0):
 
     rcon = redis.Redis(host='localhost',port=6379,db=dbIndex)
     pipe = rcon.pipeline()
-    print '读取excel表格，请把数据放置第一个sheet的第0列位置,并删除其他sheet'
+    print '读取excel表格中 (默认第0列，第0个sheet)'
     data = open_excel(fileName)
     table = data.sheets()[sheetIndex]
     rows = table.nrows
